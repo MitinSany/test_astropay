@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "${WEB_PORT:-8082}:80"
+    volumes:
+      - ./:/application
+      - ./docker/nginx.conf:/etc/nginx/conf.d/application.conf
+    links:
+      - php
+    depends_on:
+      - php
+    restart: always
+  php:
+    build: ./docker/php
+    volumes:
+      - ./:/application
+    restart: always
